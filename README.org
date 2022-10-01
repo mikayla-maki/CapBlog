@@ -12,14 +12,15 @@ Portland State University
 
 *** TODO [#A] Get Mikayla's hacking environment set up
 
- - [ ] Install Emacs
- - [ ] Install Racket
- - [ ] Install racket-mode
+ - [X] Install Emacs
+ - [X] Install Racket
+ - [X] Install racket-mode
+ - [ ] Learn the racket-flow
  - [ ] docs.racket-lang.org, go through *at least* one of the top
    tutorials
  - [ ] Read Goblins docs and install Goblins
    - [ ] https://docs.racket-lang.org/goblins/index.html
- - [ ] BONUS: Start using org-mode for local notes / TODO tracking
+ - [X] BONUS: Start using org-mode for local notes / TODO tracking
 
 *** TODO [#A] Create a project plan
 
