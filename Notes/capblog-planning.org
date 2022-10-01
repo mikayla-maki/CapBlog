@@ -1,0 +1,62 @@
+* Brainstorming
+
+Interest: solving some fundamental internet problems
+
+Blogpost is compelling but very code'y :)
+What does it look like for a user?
+
+Christine: let's keep it feasible too :)
+
+more interested in implementing the blogpost example as something that
+someone actually runs
+
+Christine's list of goals:
+ - Keep it manageable
+ - Keep it fun
+ - Get something your university is *happy* with
+
+Mikayla's big question: "What's it like to receive and use a capability?
+So I want all the other parts to be as not-interesting-as-possible"
+
+#+BEGIN_SRC scheme
+  (define (^blogpost bcom)
+    (http-methods
+     ((foo ...)
+      (GET
+       )
+      (POST))
+     ))
+
+  (define (^))
+#+END_SRC
+
+* Tasks
+** TODO Get emacs + etc setup
+*** DONE Install emacs
+    CLOSED: [2022-09-03 Sat 13:30]
+
+*** TODO Start an emacs cheat sheet in org-mode
+
+*** TODO Get comfortable with emacs
+
+Okay, do we want to go with spacemacs or doom emacs or???
+
+*** TODO Install racket-mode
+*** TODO Install geiser (for Guile integration)
+
+** TODO Get running with racket-goblins
+*** TODO Write an example program with racket-goblins
+
+** TODO Get running with guile-goblins
+*** TODO Install Guix and Guile
+
+** TODO HTTP membrane'd blogpost
+
+*** TODO Translate blog example to Racket
+
+*** TODO Make minimal HTTP membrane for Goblins
+
+*** TODO Do a read-only, pre-coded set of blogposts
+*** TODO Writing can be done with CapTP
+*** TODO Persist these to disk (Aurie)
+*** TODO Then if there's time: branch out into POST style updates

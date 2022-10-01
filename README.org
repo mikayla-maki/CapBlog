@@ -1,0 +1,76 @@
+** TODO Mikayla's work
+*** Notes
+
+Once a week on Tuesdays will do a call with professor, and they need
+to describe what she did etc
+
+Has to be done by December 5th
+
+About 8-10 hours
+
+Portland State University
+
+*** TODO [#A] Get Mikayla's hacking environment set up
+
+ - [ ] Install Emacs
+ - [ ] Install Racket
+ - [ ] Install racket-mode
+ - [ ] docs.racket-lang.org, go through *at least* one of the top
+   tutorials
+ - [ ] Read Goblins docs and install Goblins
+   - [ ] https://docs.racket-lang.org/goblins/index.html
+ - [ ] BONUS: Start using org-mode for local notes / TODO tracking
+
+*** TODO [#A] Create a project plan
+
+**** Deliverables
+
+Create a "real" version of the blog example with:
+ - Read-only web view
+   - Uses http capabilities and html rendering
+ - Updating
+   - Updating can be done manually with REPL just fine
+   - Need to have "permalink" sturdyrefs for editing
+ - Extensibility
+   - User 1 creates blog, provides edit access over CapTP to User 2
+   - User 2 creates extension (without User 1's involvement)
+     with multiple stakeholder cooperation, hands access to Users 3
+     and 4
+   - User 3 authors and updates post to User 4's satisfaction
+   - User 4 presses go-live
+ - Demonstration with 4 actual users pulling off above process
+   (all updating steps okay to happen at REPL)
+ - BONUS: Secure persistence (use Aurie)
+
+**** Outline/Schedule
+
+ - September 27:
+   Meeting / project plan
+ - October 4th:
+   Environment set up, "manually entered" paper code
+ - October 11th:
+   CapTP working + sturdyrefs
+   (Christine and Mikayla have call where each shares
+   a capability over CapTP)
+ - October 18th:
+   Go through Racket's HTTP/HTML demo stuff
+ - October 25th:
+   "Cheater" web membrane
+ - November 1st:
+   "Good" web membrane?
+ - November 8th:
+   Start preparing demo for users to test
+ - November 15th:
+   Do live demo with users
+ - November 22nd:
+   Writing paper part 1
+ - November 29th:
+   Writing paper part 2
+ - December 5th (Monday):
+   Hand in paper
+
+*** TODO [#B] Promotion plan? Supporters?
+
+ - To what extent can we cross-promote that we're already working with
+   a major university?
+ - Can we get a logo on the supporters page?
