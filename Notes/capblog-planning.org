@@ -41,7 +41,8 @@ So I want all the other parts to be as not-interesting-as-possible"
 
 Okay, do we want to go with spacemacs or doom emacs or???
 
-*** TODO Install racket-mode
+*** DONE Install racket-mode
+CLOSED: [2022-10-09 Sun 13:43]
 *** TODO Install geiser (for Guile integration)
 
 ** TODO Get running with racket-goblins

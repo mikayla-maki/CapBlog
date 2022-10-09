@@ -1,30 +1,4 @@
-** TODO Mikayla's work
-*** Notes
-
-Once a week on Tuesdays will do a call with professor, and they need
-to describe what she did etc
-
-Has to be done by December 5th
-
-About 8-10 hours
-
-Portland State University
-
-*** TODO [#A] Get Mikayla's hacking environment set up
-
- - [X] Install Emacs
- - [X] Install Racket
- - [X] Install racket-mode
- - [ ] Learn the racket-flow
- - [ ] docs.racket-lang.org, go through *at least* one of the top
-   tutorials
- - [ ] Read Goblins docs and install Goblins
-   - [ ] https://docs.racket-lang.org/goblins/index.html
- - [X] BONUS: Start using org-mode for local notes / TODO tracking
-
-*** TODO [#A] Create a project plan
-
-**** Deliverables
+* Deliverables
 
 Create a "real" version of the blog example with:
  - Read-only web view
@@ -43,7 +17,7 @@ Create a "real" version of the blog example with:
    (all updating steps okay to happen at REPL)
  - BONUS: Secure persistence (use Aurie)
 
-**** Outline/Schedule
+* Outline / Schedule
 
  - September 27:
    Meeting / project plan
@@ -70,8 +44,45 @@ Create a "real" version of the blog example with:
  - December 5th (Monday):
    Hand in paper
 
-*** TODO [#B] Promotion plan? Supporters?
+* Tasks:
+** DONE Create a project plan
+CLOSED: [2022-10-09 Sun 13:46]
+
+** DONE Promotion plan? Supporters?
+CLOSED: [2022-10-09 Sun 13:46]
 
  - To what extent can we cross-promote that we're already working with
    a major university?
  - Can we get a logo on the supporters page?
+
+** TODO Get Mikayla's hacking environment set up
+
+ - [X] Install Emacs
+ - [X] Install Racket
+ - [X] Install racket-mode
+ - [X] Learn the racket-flow
+ - [ ] docs.racket-lang.org, go through *at least* one of the top
+   tutorials
+ - [ ] Read Goblins docs and install Goblins
+   - [ ] https://docs.racket-lang.org/goblins/index.html
+ - [X] BONUS: Start using org-mode for local notes / TODO tracking
+
+** TODO Enter the paper code
+
+- [ ] Figure out file structure
+- [ ] Go through the tutorial
+
+** CapTP working + sturdyrefs
+
+- [ ] understand how to create, share, and send messages on sturdyrefs
+- [ ] Make a local CapTP connection
+- [ ] Revise the blog tutorial code in light of the above
+
+* Notes
+
+Once a week on Tuesdays will do a call with professor, and they need
+to describe what she did etc
+
+Has to be done by December 5th
+
+About 8-10 hours a week (ideally)
