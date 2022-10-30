@@ -164,13 +164,21 @@
    (spawn ^admin)))
 
 
+(define spawn-adminable-post-and-editor
+  (make-keyword-procedure
+   (lambda (kws kw-vals admin . args)
+     (define post-and-editor
+       (keyword-apply $ kws kw-vals  admin 'new-post-and-editor args))
+     (match post-and-editor
+       [(list post editor) (values post editor)]))))
+
 (define (^logger _bcom)
   (define log
     (spawn ^cell '()))
   (methods
-   [(append-to-log username object args)
+   [(append-to-log username object success args)
     (define new-log-entry
-      (list '*entry* 'user username 'object object 'args args))
+      (list '*entry* 'user username 'object object 'allowed? success 'args args))
     (define current-log ($ log))
     (define new-log (cons new-log-entry current-log))
     ($ log new-log)]
@@ -184,14 +192,49 @@
   (define (^proxy _bcom)
     (make-keyword-procedure
      (lambda (kws kw-vals . args)
-       (when ($ revoked?)
-         (error "Access revoked!"))
-       ($ log 'append-to-log username object args)
-       (keyword-apply $ kws kw-vals object args)
-       )))
+       (cond (($ revoked?)
+              ($ log 'append-to-log username object 'denied args)
+              'denied)
+             (else
+              ($ log 'append-to-log username object 'ok args)
+              (keyword-apply $ kws kw-vals object args))))))
 
   (define proxy (spawn ^proxy))
   (values proxy revoked?))
+
+
+
+(define (spawn-post-guest-editor-and-reviewer author blog-admin)
+  (define-values (post editor)
+    (spawn-adminable-post-and-editor blog-admin #:author author))
+
+  (define submitted-already? (spawn ^cell #f))
+
+  (define (ensure-not-submitted)
+    (when ($ submitted-already?)
+      (error "Already Submitted!")))
+
+  (define (^reviewer _bcom)
+    (methods
+     [(approve)
+      (ensure-not-submitted)
+      ($ blog-admin 'add-post post)
+      ($ submitted-already? #t)]))
+
+  (define (^restricted-editor _bcom)
+    (methods
+     [(set-title new-title)
+      (ensure-not-submitted)
+      ($ editor 'update #:title new-title)]
+     [(set-body new-body)
+      (ensure-not-submitted)
+      ($ editor 'update #:body new-body)]))
+
+  (define reviewer (spawn ^reviewer))
+  (define restricted-editor (spawn ^restricted-editor))
+  (values post restricted-editor reviewer))
+
+
 
 
 ;(define-values (post editor)
@@ -235,3 +278,14 @@
 (vat-run ($ admin-for-robert 'edit-post test-post #:body "ROBERT-EDITED"))
 (vat-run (display-blog blog))
 (vat-run ($ admin-log 'get-log))
+
+(define-values (review-post review-editor reviewer)
+  (vat-run
+   (spawn-post-guest-editor-and-reviewer "SAMPLE" admin-for-robert)))
+
+(vat-run ($ review-editor 'set-body "ATTENUATED EDITOR"))
+(vat-run ($ review-editor 'set-title "ATTENUATED EDITOR TITLE"))
+
+(vat-run ($ reviewer 'approve))
+
+(vat-run (display-blog blog))
