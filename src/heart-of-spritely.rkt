@@ -5,8 +5,12 @@
 (require goblins/actor-lib/methods)
 (require goblins/utils/simple-sealers)
 
-
-(define vat (make-vat))
+(provide display-post-content display-blog-header
+         display-post display-blog
+         spawn-blog-and-admin spawn-adminable-post-and-editor
+         ^logger
+         spawn-logged-revocable-proxy-pair
+         spawn-post-guest-editor-and-reviewer)
 
 (define (display-post-content post-content)
   (match post-content
@@ -43,46 +47,6 @@
    ($ blog 'get-posts)))
 
 
-;; Interesting capability stuff below
-(require pk)
-
-(define (spawn-blog-and-admin title)
-  (define posts
-    (spawn ^cell '()))
-  (define (^blog _bcom)
-    (methods
-     [(get-title) title]
-     [(get-posts) ($ posts)]))
-  (define (^admin bcom)
-    (methods
-     [(add-post post)
-      (define current-posts
-        ($ posts))
-      (define new-posts
-        (cons post current-posts))
-      ($ posts new-posts)]))
-  (define blog (spawn ^blog))
-  (define admin (spawn ^admin))
-  (values blog admin))
-
-(define (spawn-post-and-editor #:title (title #f) #:author (author #f) #:body (body #f))
-  ;; the public blogpost
-  (define (^post _bcom)
-    (methods
-     [(get-content)
-      (define data-triple
-        ($ editor 'get-data))
-      (cons '*post* data-triple)]))
-  (define (^editor bcom title author body)
-    (methods
-     [(update #:title (title title) #:author (author author) #:body (body body))
-      (bcom (^editor bcom title author body))]
-     [(get-data)
-      (list title author body)]))
-  (define post (spawn ^post))
-  (define editor (spawn ^editor title author body))
-  (values post editor))
-
 
 (define (spawn-post-and-editor-internal blog-sealer
                                         #:title (title #f)
@@ -109,7 +73,7 @@
   (values post editor))
 
 
-(define (new-spawn-blog-and-admin title)
+(define (spawn-blog-and-admin title)
   (define-values (blog-seal blog-unseal blog-sealed?)
     (make-sealer-triplet))
   (define posts
@@ -233,59 +197,3 @@
   (define reviewer (spawn ^reviewer))
   (define restricted-editor (spawn ^restricted-editor))
   (values post restricted-editor reviewer))
-
-
-
-
-;(define-values (post editor)
-;  (vat 'run
-;       (lambda ()
-;         (spawn-post-and-editor
-;          #:title "A day in the Park"
-;          #:author "Mikayla"
-;          #:body "la-di-da..."))
-;       ))
-
-(define-values (blog admin)
-  (vat 'run
-       (lambda ()
-         (new-spawn-blog-and-admin "Test blog!"))
-       ))
-
-(match-define (list test-post test-editor)
-  (vat 'run
-       (lambda ()
-         ($ admin 'new-post-and-editor
-            #:title "title"
-            #:author "TEST"
-            #:body "TEST TEST TEST"))
-       ))
-
-(define-vat-run vat-run vat)
-
-(define admin-log (vat-run (spawn ^logger)))
-
-(vat-run ($ admin 'add-post test-post))
-
-(define-values (admin-for-robert roberts-admin-revoked?)
-  (vat-run (spawn-logged-revocable-proxy-pair
-            "Robert"
-            admin
-            admin-log
-            )))
-
-; TODO:
-(vat-run ($ admin-for-robert 'edit-post test-post #:body "ROBERT-EDITED"))
-(vat-run (display-blog blog))
-(vat-run ($ admin-log 'get-log))
-
-(define-values (review-post review-editor reviewer)
-  (vat-run
-   (spawn-post-guest-editor-and-reviewer "SAMPLE" admin-for-robert)))
-
-(vat-run ($ review-editor 'set-body "ATTENUATED EDITOR"))
-(vat-run ($ review-editor 'set-title "ATTENUATED EDITOR TITLE"))
-
-(vat-run ($ reviewer 'approve))
-
-(vat-run (display-blog blog))
