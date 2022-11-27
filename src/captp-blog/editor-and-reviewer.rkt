@@ -46,7 +46,7 @@
 
   (define reviewer (spawn ^reviewer))
   (define restricted-editor (spawn ^restricted-editor))
-  (values post restricted-editor reviewer))
+  (values post-vow restricted-editor reviewer))
 
 (define-vat-run machine-run (make-vat))
 (define mycapn
