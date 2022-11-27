@@ -57,7 +57,9 @@
      [(get-sealed-editor)
       (blog-sealer (list '*editor* editor))]
      [(get-sealed-self)
-      (blog-sealer (list '*post-self-proof* post))]))
+      (blog-sealer (list '*post-self-proof* post))]
+     [(get-html)
+      (get-post post)]))
   (define (^editor bcom title author body)
     (methods
      [(update #:title (title title) #:author (author author) #:body (body body))
@@ -80,7 +82,7 @@
       title]
      [(get-posts)
       ($ posts)]
-     [(get-html-blog)
+     [(get-html)
       (get-html-blog blog-obj)]
      ))
   (define (^admin bcom)
@@ -176,19 +178,6 @@
                             #:title "Hello World!"
                             #:author "Mikayla M"
                             #:body "This is the first blog post in a small OCap network!")))
- (define-values (admin-for-robert roberts-admin-revoked?)
-   (spawn-logged-revocable-proxy-pair
-    "Robert"
-    admin
-    admin-log
-    ))
- (define admin-robert-sref ($ mycapn 'register admin-for-robert 'onion))
- (display "Robert-admin sref: ")
- (displayln (format "~a\n" (url->string (ocapn-sturdyref->url admin-robert-sref))))
-
- (define roberts-admin-revoked?-sref ($ mycapn 'register roberts-admin-revoked? 'onion))
- (display "Robert-admin-revoked sref: ")
- (displayln (format "~a\n" (url->string (ocapn-sturdyref->url roberts-admin-revoked?-sref))))
 
  (define admin-sref ($ mycapn 'register admin 'onion))
  (display "admin sref: ")
@@ -204,3 +193,16 @@
 
  (values blog admin admin-log)
 ))
+
+
+(define (register-new-admin username)
+  (machine-run
+   (define-values (new-admin new-admin-revoked?)
+     (spawn-logged-revocable-proxy-pair
+      username
+      admin
+      admin-log))
+   (define new-admin-sref ($ mycapn 'register new-admin 'onion))
+   (display (format "~a's sref: " username))
+   (displayln (format "~a\n" (url->string (ocapn-sturdyref->url new-admin-sref))))
+   new-admin-revoked?))
