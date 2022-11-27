@@ -9,12 +9,14 @@
 (require net/url)
 
 (define (spawn-post-guest-editor-and-reviewer author blog-admin)
-  (define-values (post editor)
-    (on (<- blog-admin 'new-post-and-editor #:author author)
-        (lambda (post-and-editor)
-          (display post-and-editor)
-          (match-define (list post editor) post-and-editor)
-          (values post editor))))
+  (define post-and-editor-vow
+    (<- blog-admin 'new-post-and-editor #:author author))
+  (define post-vow
+    (on post-and-editor-vow first
+        #:promise? #t))
+  (define editor-vow
+    (on post-and-editor-vow second
+        #:promise? #t))
 
   (define submitted-already? (spawn ^cell #f))
 
@@ -25,18 +27,22 @@
   (define (^reviewer _bcom)
     (methods
      [(approve)
-      (ensure-not-submitted)
-      (<- blog-admin 'add-post post)
-      ($ submitted-already? #t)]))
+      (on post-vow
+          (lambda (post)
+            (ensure-not-submitted)
+            ($ submitted-already? #t)
+            (<- blog-admin 'add-post post))
+          #:promise? #t)]))
 
   (define (^restricted-editor _bcom)
     (methods
      [(set-title new-title)
       (ensure-not-submitted)
-      ($ editor 'update #:title new-title)]
+      (<- editor-vow 'update
+          #:title new-title)]
      [(set-body new-body)
       (ensure-not-submitted)
-      ($ editor 'update #:body new-body)]))
+      (<- editor-vow 'update #:body new-body)]))
 
   (define reviewer (spawn ^reviewer))
   (define restricted-editor (spawn ^restricted-editor))
