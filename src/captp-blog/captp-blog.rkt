@@ -57,12 +57,16 @@
      [(get-sealed-editor)
       (blog-sealer (list '*editor* editor))]
      [(get-sealed-self)
-      (blog-sealer (list '*post-self-proof* post))]
-     [(get-html)
-      (get-post post)]))
+      (blog-sealer (list '*post-self-proof* post))]))
   (define (^editor bcom title author body)
     (methods
      [(update #:title (title title) #:author (author author) #:body (body body))
+      (bcom (^editor bcom title author body))]
+     [(update-title title)
+      (bcom (^editor bcom title author body))]
+     [(update-author author)
+      (bcom (^editor bcom title author body))]
+     [(update-body body)
       (bcom (^editor bcom title author body))]
      [(get-data)
       (list title author body)]))
@@ -87,10 +91,7 @@
      ))
   (define (^admin bcom)
     (methods
-     [(new-post-and-editor
-       #:title (title #f)
-       #:author (author #f)
-       #:body (body #f))
+     [(new-post-and-editor title author body)
       (define-values (post editor)
         (spawn-post-and-editor-internal
          blog-seal
@@ -175,9 +176,9 @@
    (spawn-blog-and-admin "Test blog!"))
  (define admin-log (spawn ^logger))
  ($ admin 'add-post (car ($ admin 'new-post-and-editor
-                            #:title "Hello World!"
-                            #:author "Mikayla M"
-                            #:body "This is the first blog post in a small OCap network!")))
+                            "Hello World!"
+                            "Mikayla M"
+                            "This is the first blog post in a small OCap network!")))
 
  (define admin-sref ($ mycapn 'register admin 'onion))
  (display "admin sref: ")
@@ -197,12 +198,12 @@
 
 (define (register-new-admin username)
   (machine-run
-   (define-values (new-admin new-admin-revoked?)
-     (spawn-logged-revocable-proxy-pair
-      username
-      admin
-      admin-log))
-   (define new-admin-sref ($ mycapn 'register new-admin 'onion))
-   (display (format "~a's sref: " username))
-   (displayln (format "~a\n" (url->string (ocapn-sturdyref->url new-admin-sref))))
-   new-admin-revoked?))
+  (define-values (new-admin new-admin-revoked?)
+    (spawn-logged-revocable-proxy-pair
+     username
+     admin
+     admin-log))
+  (define new-admin-sref ($ mycapn 'register new-admin 'onion))
+  (display (format "~a's sref: " username))
+  (displayln (format "~a\n" (url->string (ocapn-sturdyref->url new-admin-sref))))
+  new-admin-revoked?))

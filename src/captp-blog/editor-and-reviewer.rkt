@@ -3,14 +3,13 @@
 (require goblins)
 (require goblins/actor-lib/bootstrap)
 (require goblins/actor-lib/methods)
-(require goblins/utils/simple-sealers)
 (require goblins/ocapn)
 (require goblins/ocapn/netlayer/onion)
 (require net/url)
 
 (define (spawn-post-guest-editor-and-reviewer author blog-admin)
   (define post-and-editor-vow
-    (<- blog-admin 'new-post-and-editor #:author author))
+    (<- blog-admin 'new-post-and-editor #f author #f))
   (define post-vow
     (on post-and-editor-vow first
         #:promise? #t))
@@ -38,11 +37,10 @@
     (methods
      [(set-title new-title)
       (ensure-not-submitted)
-      (<- editor-vow 'update
-          #:title new-title)]
+      (<- editor-vow 'update-title new-title)]
      [(set-body new-body)
       (ensure-not-submitted)
-      (<- editor-vow 'update #:body new-body)]))
+      (<- editor-vow 'update-body new-body)]))
 
   (define reviewer (spawn ^reviewer))
   (define restricted-editor (spawn ^restricted-editor))
