@@ -22,7 +22,6 @@
 
  (define bob-sturdyref
    ($ mycapn 'register bob 'onion))
-
  (displayln (format "Bob's sturdyref: ~a" (url->string (ocapn-sturdyref->url bob-sturdyref)))))
 
 

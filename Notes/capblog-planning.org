@@ -11,8 +11,8 @@ more interested in implementing the blogpost example as something that
 someone actually runs
 
 Christine's list of goals:
- - Keep it manageable
  - Keep it fun
+ - Keep it manageable
  - Get something your university is *happy* with
 
 Mikayla's big question: "What's it like to receive and use a capability?

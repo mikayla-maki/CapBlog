@@ -7,6 +7,12 @@
 
 (require "heart-of-spritely.rkt")
 
+; TODO:
+; - Make Blog component on 1 machine
+; - Make reviewer and post components
+; - Make generic message sender components for doing stuff on the command line
+; - Add lots of logs to everything so we can see what happens
+
 ;; Interesting capability stuff below
 (define (old-spawn-blog-and-admin title)
   (define posts

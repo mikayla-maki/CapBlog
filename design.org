@@ -1,0 +1,26 @@
+* System Architecture
+** Local only website
+- [ ] Spins up a tor node for itself and accepts 'set posts'
+- [ ] Spins up a racket html server to show posts
+** Blog administration
+- [ ] Contains the main admin interface from the HOS
+- [ ] Enhanced to write to the provided sturdyref
+- [ ] Produces sturdyrefs to objects for Alice and Robert
+- [ ] Can also print out the log
+** Robert editing machine
+- [ ] uses the sturdy ref from alice to create the approved post object
+- [ ] Shares sturdy refs of them to approver and writer
+** Approver
+- [ ] Generic 'Write arbitrary to sturdy ref' that does the approve
+** Writer
+- [ ] Generic 'Write arbitrary to sturdy ref' that does the editing
+** Generic OCap Interactor
+- [X] Needs to be able to send stuff to sfs and print the result
+* Notes
+NOTE TO SELF: Use generic writer to query the live state of the systme
+
+ORDER OF OPS:
+Generic writer
+Website
+Admin
+Robert

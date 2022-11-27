@@ -6,7 +6,6 @@
          goblins/ocapn/netlayer/onion
          net/url)
 
-
 ;; Set up machine
 (define-vat-run machine-run (make-vat))
 (define mycapn
