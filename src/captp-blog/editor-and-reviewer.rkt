@@ -68,7 +68,7 @@
 
    (define editor-sref ($ mycapn 'register restricted-editor 'onion))
    (display "editor sref: ")
-   (displayln (format "~a\n" (url->string (ocapn-sturdyref->url restricted-editor))))
+   (displayln (format "~a\n" (url->string (ocapn-sturdyref->url editor-sref))))
 
    (define reviewer-sref ($ mycapn 'register reviewer 'onion))
    (display "reviewer sref: ")
@@ -76,7 +76,7 @@
 
    (define post-sref ($ mycapn 'register post 'onion))
    (display "post sref: ")
-   (displayln (format "~a\n" (url->string (ocapn-sturdyref->url post))))
+   (displayln (format "~a\n" (url->string (ocapn-sturdyref->url post-sref))))
 
    (values post restricted-editor reviewer)))
 
