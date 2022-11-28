@@ -33,8 +33,9 @@
 (define (html-template body-content)
   (response/xexpr
    `(html
+
      (head (title "Object Fetcher"))
-     (body ((style "margin:0;")) (div ((style "margin:0; display: flex;align-items: center;justify-content: center;min-height: 50vh;font-size: 1.25em;"))
+     (body ((style "margin:0;")) (div ((style "margin:0; display: flex;align-items: center;justify-content: center;min-height: 50vh;font-size: 1.25em; max-width: 10in; margin: 0 auto; margin-top: 1em;"))
                                       ,body-content)))))
 
 (define go-back "<br/> <a href='javascript:history.back()'>Go back</a>")
